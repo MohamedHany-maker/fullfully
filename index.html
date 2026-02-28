@@ -3,1213 +3,780 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>الأهلي للتسويق الإلكتروني - عروض الباقات</title>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<title>الأهلي للتسويق الإلكتروني</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
-  :root {
-    --primary: #f15a25;
-    --secondary: #ec2159;
-    --white: #ffffff;
-    --grad: linear-gradient(135deg, #f15a25 0%, #ec2159 100%);
-    --grad-bg: linear-gradient(145deg, #1a0a00 0%, #2d0a1a 50%, #0d0d2b 100%);
-    --card-bg: rgba(255,255,255,0.05);
-    --card-border: rgba(241,90,37,0.3);
-    --text-main: #ffffff;
-    --text-muted: rgba(255,255,255,0.6);
-    --surface: rgba(255,255,255,0.04);
-    --surface-hover: rgba(255,255,255,0.08);
-  }
-  .light-mode {
-    --grad-bg: linear-gradient(145deg, #fff5f0 0%, #fff0f5 50%, #f0f0ff 100%);
-    --card-bg: rgba(255,255,255,0.9);
-    --card-border: rgba(241,90,37,0.4);
-    --text-main: #1a0a00;
-    --text-muted: rgba(26,10,0,0.55);
-    --surface: rgba(241,90,37,0.05);
-    --surface-hover: rgba(241,90,37,0.1);
-  }
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+:root{
+  --or:#f15a25;--pk:#ec2159;
+  --grad:linear-gradient(135deg,#f15a25,#ec2159);
+  --bg:#0c0c16;--bg2:#12101e;
+  --card:rgba(255,255,255,0.042);
+  --border:rgba(241,90,37,0.22);
+  --txt:#f0f0f8;--sub:rgba(240,240,248,0.52);
+  --surf:rgba(255,255,255,0.048);--hov:rgba(241,90,37,0.1);
+}
+.lm{
+  --bg:#f4f2ee;--bg2:#ede8e2;
+  --card:rgba(255,255,255,0.88);
+  --border:rgba(241,90,37,0.28);
+  --txt:#1a1020;--sub:rgba(26,16,32,0.5);
+  --surf:rgba(241,90,37,0.06);--hov:rgba(241,90,37,0.12);
+}
+body{
+  font-family:'IBM Plex Sans Arabic',sans-serif;
+  background:var(--bg);color:var(--txt);
+  direction:rtl;min-height:100vh;
+  transition:background .35s,color .35s;
+  overflow-x:hidden;
+}
+.mesh{
+  position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(ellipse 65% 55% at 10% 10%,rgba(241,90,37,.14) 0%,transparent 60%),
+    radial-gradient(ellipse 55% 55% at 90% 80%,rgba(236,33,89,.1) 0%,transparent 60%);
+}
+.lm .mesh{
+  background:
+    radial-gradient(ellipse 65% 55% at 10% 10%,rgba(241,90,37,.08) 0%,transparent 60%),
+    radial-gradient(ellipse 55% 55% at 90% 80%,rgba(236,33,89,.06) 0%,transparent 60%);
+}
+/* HEADER */
+header{
+  position:sticky;top:0;z-index:200;
+  border-bottom:1px solid var(--border);
+  backdrop-filter:blur(22px);
+  background:rgba(12,12,22,.72);
+  transition:background .35s;
+}
+.lm header{background:rgba(244,242,238,.88);}
+.hdr{
+  max-width:1340px;margin:0 auto;padding:14px 24px;
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+}
+.logo{display:flex;align-items:center;gap:12px;}
+.logo img{width:50px;height:50px;border-radius:11px;object-fit:cover;border:1.5px solid rgba(241,90,37,.4);}
+.logo h1{font-size:15px;font-weight:700;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.logo p{font-size:11px;color:var(--sub);}
+.hbtns{display:flex;gap:8px;align-items:center;}
+.bsm{
+  display:flex;align-items:center;gap:6px;padding:8px 15px;
+  border-radius:50px;cursor:pointer;white-space:nowrap;
+  font-family:'IBM Plex Sans Arabic',sans-serif;font-size:12.5px;font-weight:500;
+  border:1px solid var(--border);background:var(--surf);color:var(--txt);
+  transition:all .22s;
+}
+.bsm:hover{background:var(--hov);border-color:var(--or);}
+.bsm.g{background:var(--grad);border-color:transparent;color:#fff;}
+.bsm.g:hover{opacity:.87;transform:translateY(-1px);}
+/* HERO */
+.hero{text-align:center;padding:70px 24px 52px;position:relative;z-index:1;}
+.chip{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:5px 20px;border-radius:50px;margin-bottom:20px;
+  background:rgba(241,90,37,.11);border:1px solid rgba(241,90,37,.32);
+  font-size:12.5px;color:var(--or);font-weight:600;letter-spacing:.3px;
+}
+.hero h2{
+  font-size:clamp(28px,5.5vw,54px);font-weight:800;line-height:1.22;
+  margin-bottom:14px;letter-spacing:-.5px;
+}
+.hero h2 em{
+  font-style:normal;
+  background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.hero p{font-size:15px;color:var(--sub);max-width:520px;margin:0 auto;line-height:1.75;}
+/* GRID */
+.wrap{max-width:1340px;margin:0 auto;padding:0 24px;position:relative;z-index:1;}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(335px,1fr));
+  gap:22px;padding-bottom:90px;
+}
+/* CARD */
+.card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:24px;padding:28px 26px 24px;
+  backdrop-filter:blur(14px);position:relative;overflow:hidden;
+  transition:transform .28s,box-shadow .28s,border-color .28s;
+}
+.card:hover{
+  transform:translateY(-6px);border-color:rgba(241,90,37,.52);
+  box-shadow:0 18px 52px rgba(241,90,37,.13);
+}
+.card.hot{border-color:rgba(241,90,37,.48);}
+.card.hot::before{
+  content:'';position:absolute;top:0;right:0;left:0;height:2.5px;
+  background:var(--grad);
+}
+.htag{
+  position:absolute;top:16px;left:16px;
+  padding:3px 12px;border-radius:50px;
+  background:var(--grad);color:#fff;font-size:10.5px;font-weight:700;
+}
+.cicon{
+  width:50px;height:50px;border-radius:14px;
+  background:rgba(241,90,37,.11);border:1px solid rgba(241,90,37,.24);
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;margin-bottom:16px;
+}
+.cname{font-size:21px;font-weight:800;margin-bottom:4px;letter-spacing:-.3px;}
+.cdur{font-size:12px;color:var(--or);font-weight:600;margin-bottom:18px;}
+.prow{display:flex;align-items:flex-end;gap:8px;margin-bottom:4px;}
+.pval{
+  font-size:36px;font-weight:800;line-height:1;
+  background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.punit{font-size:14px;color:var(--sub);margin-bottom:5px;}
+.pold{font-size:13px;color:var(--sub);text-decoration:line-through;margin-bottom:6px;}
+.stag{
+  display:inline-block;padding:2px 10px;border-radius:50px;
+  background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.28);
+  font-size:11px;color:#22c55e;font-weight:600;margin-bottom:18px;
+}
+.div{height:1px;background:var(--border);margin:16px 0;}
+.slist{display:flex;flex-direction:column;gap:7px;margin-bottom:16px;}
+.sit{
+  display:flex;align-items:center;gap:9px;padding:9px 13px;border-radius:12px;
+  background:var(--surf);border:1px solid transparent;cursor:pointer;
+  transition:all .22s;font-size:13.5px;font-weight:500;
+}
+.sit:hover{background:var(--hov);border-color:rgba(241,90,37,.28);color:var(--or);}
+.sdot{width:7px;height:7px;border-radius:50%;background:var(--grad);flex-shrink:0;}
+.sarr{margin-right:auto;font-size:11px;color:var(--sub);transition:transform .2s;}
+.sit:hover .sarr{transform:translateX(-3px);color:var(--or);}
+.gbox{
+  padding:11px 14px;border-radius:12px;
+  background:rgba(241,90,37,.07);border:1px solid rgba(241,90,37,.17);
+  font-size:12.5px;color:var(--sub);line-height:1.65;margin-bottom:18px;
+}
+.gbox b{color:var(--or);}
+.boff{
+  width:100%;padding:13px;border-radius:14px;
+  background:var(--grad);border:none;color:#fff;
+  font-family:'IBM Plex Sans Arabic',sans-serif;font-size:13.5px;font-weight:700;
+  cursor:pointer;transition:all .25s;
+  display:flex;align-items:center;justify-content:center;gap:7px;
+}
+.boff:hover{opacity:.87;box-shadow:0 8px 28px rgba(241,90,37,.38);}
+/* MODALS */
+.ov{
+  position:fixed;inset:0;z-index:500;
+  background:rgba(0,0,0,.65);backdrop-filter:blur(10px);
+  display:flex;align-items:center;justify-content:center;padding:20px;
+  opacity:0;pointer-events:none;transition:opacity .3s;
+}
+.ov.on{opacity:1;pointer-events:all;}
+.mb{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:24px;padding:32px 30px;
+  width:100%;max-width:580px;max-height:84vh;overflow-y:auto;
+  transform:translateY(18px);transition:transform .3s;position:relative;
+}
+.ov.on .mb{transform:translateY(0);}
+.mcl{
+  position:absolute;top:18px;left:18px;
+  width:33px;height:33px;border-radius:50%;
+  background:var(--surf);border:1px solid var(--border);
+  color:var(--txt);cursor:pointer;display:flex;align-items:center;justify-content:center;
+  font-size:14px;transition:all .22s;
+}
+.mcl:hover{background:rgba(236,33,89,.2);}
+.mtt{
+  font-size:20px;font-weight:700;margin-bottom:4px;
+  background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.mst{font-size:12.5px;color:var(--sub);margin-bottom:22px;}
+.dl{display:flex;flex-direction:column;gap:9px;}
+.di{display:flex;gap:11px;padding:13px;border-radius:12px;background:var(--surf);border:1px solid rgba(241,90,37,.1);}
+.dc{
+  width:22px;height:22px;border-radius:50%;background:var(--grad);
+  display:flex;align-items:center;justify-content:center;
+  font-size:10px;color:#fff;flex-shrink:0;margin-top:1px;
+}
+.dt{font-size:13.5px;line-height:1.65;color:var(--txt);}
+/* PDF FORM */
+.pf{display:flex;flex-direction:column;gap:14px;margin-top:20px;}
+.pf label{font-size:12.5px;color:var(--sub);margin-bottom:4px;display:block;font-weight:600;}
+.pf input,.pf select{
+  width:100%;padding:11px 15px;border-radius:12px;
+  background:var(--surf);border:1px solid var(--border);
+  color:var(--txt);font-family:'IBM Plex Sans Arabic',sans-serif;font-size:13.5px;
+  outline:none;transition:border-color .22s;
+}
+.pf input:focus,.pf select:focus{border-color:var(--or);}
+.pf select option{background:#12101e;color:#f0f0f8;}
+.lm .pf select option{background:#ede8e2;color:#1a1020;}
+.bpdf{
+  padding:14px;border-radius:13px;background:var(--grad);
+  border:none;color:#fff;
+  font-family:'IBM Plex Sans Arabic',sans-serif;font-size:14px;font-weight:700;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;
+  transition:all .25s;
+}
+.bpdf:hover{opacity:.87;box-shadow:0 8px 28px rgba(241,90,37,.38);}
+.bpdf:disabled{opacity:.5;cursor:not-allowed;}
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:28px 24px;text-align:center;position:relative;z-index:1;}
+.frow{display:flex;justify-content:center;flex-wrap:wrap;gap:22px;margin-bottom:14px;}
+.fc{display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--sub);}
+.fc i{color:var(--or);}
+footer small{font-size:11.5px;color:var(--sub);}
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-thumb{background:rgba(241,90,37,.33);border-radius:3px;}
+::-webkit-scrollbar-track{background:transparent;}
+@media(max-width:640px){
+  .grid{grid-template-columns:1fr;}
+  .hbtns .bsm span:not(:first-child){display:none;}
+}
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-
-  body {
-    font-family: 'IBM Plex Sans Arabic', sans-serif;
-    background: var(--grad-bg);
-    color: var(--text-main);
-    min-height: 100vh;
-    direction: rtl;
-    transition: all 0.4s ease;
-  }
-
-  /* Background particles */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background:
-      radial-gradient(ellipse 80% 50% at 20% 20%, rgba(241,90,37,0.15) 0%, transparent 60%),
-      radial-gradient(ellipse 60% 60% at 80% 80%, rgba(236,33,89,0.12) 0%, transparent 60%);
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  .container { max-width: 1300px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
-
-  /* Header */
-  header {
-    padding: 20px 0;
-    border-bottom: 1px solid rgba(241,90,37,0.2);
-    backdrop-filter: blur(20px);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: rgba(0,0,0,0.3);
-  }
-  .light-mode header { background: rgba(255,255,255,0.8); }
-
-  .header-inner {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-  }
-
-  .logo-area {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-  }
-  .logo-img {
-    width: 56px;
-    height: 56px;
-    border-radius: 12px;
-    object-fit: cover;
-    border: 2px solid rgba(241,90,37,0.4);
-  }
-  .logo-text h1 {
-    font-size: 18px;
-    font-weight: 700;
-    background: var(--grad);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    line-height: 1.2;
-  }
-  .logo-text p { font-size: 12px; color: var(--text-muted); }
-
-  .header-actions { display: flex; align-items: center; gap: 10px; }
-
-  .toggle-btn {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 8px 14px;
-    border-radius: 50px;
-    border: 1px solid var(--card-border);
-    background: var(--surface);
-    color: var(--text-main);
-    cursor: pointer;
-    font-family: 'IBM Plex Sans Arabic', sans-serif;
-    font-size: 13px;
-    transition: all 0.3s;
-  }
-  .toggle-btn:hover { background: var(--surface-hover); }
-
-  /* Hero */
-  .hero {
-    text-align: center;
-    padding: 64px 0 48px;
-  }
-  .hero-badge {
-    display: inline-block;
-    padding: 6px 20px;
-    border-radius: 50px;
-    background: rgba(241,90,37,0.15);
-    border: 1px solid rgba(241,90,37,0.4);
-    font-size: 13px;
-    color: var(--primary);
-    margin-bottom: 20px;
-    font-weight: 500;
-  }
-  .hero h2 {
-    font-size: clamp(28px, 5vw, 52px);
-    font-weight: 700;
-    line-height: 1.2;
-    margin-bottom: 16px;
-  }
-  .hero h2 span {
-    background: var(--grad);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  .hero p { font-size: 16px; color: var(--text-muted); max-width: 560px; margin: 0 auto; }
-
-  /* Packages Grid */
-  .packages-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-    gap: 24px;
-    padding: 40px 0 80px;
-  }
-
-  .package-card {
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    border-radius: 24px;
-    padding: 32px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-    backdrop-filter: blur(10px);
-  }
-  .package-card::before {
-    content: '';
-    position: absolute;
-    top: 0; right: 0;
-    width: 100%; height: 3px;
-    background: var(--grad);
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-  .package-card:hover { transform: translateY(-6px); border-color: rgba(241,90,37,0.6); box-shadow: 0 20px 60px rgba(241,90,37,0.15); }
-  .package-card:hover::before { opacity: 1; }
-  .package-card.featured { border-color: rgba(241,90,37,0.7); }
-  .package-card.featured::before { opacity: 1; }
-
-  .featured-badge {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    padding: 4px 12px;
-    border-radius: 50px;
-    background: var(--grad);
-    font-size: 11px;
-    font-weight: 600;
-    color: white;
-  }
-
-  .package-icon {
-    width: 52px;
-    height: 52px;
-    border-radius: 14px;
-    background: rgba(241,90,37,0.15);
-    border: 1px solid rgba(241,90,37,0.3);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 22px;
-    margin-bottom: 20px;
-  }
-
-  .package-name {
-    font-size: 22px;
-    font-weight: 700;
-    margin-bottom: 6px;
-    color: var(--text-main);
-  }
-
-  .package-duration {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 13px;
-    color: var(--primary);
-    margin-bottom: 20px;
-    font-weight: 500;
-  }
-
-  .price-area {
-    display: flex;
-    align-items: flex-end;
-    gap: 10px;
-    margin-bottom: 8px;
-  }
-  .price-new {
-    font-size: 36px;
-    font-weight: 700;
-    background: var(--grad);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    line-height: 1;
-  }
-  .price-currency { font-size: 16px; color: var(--text-muted); margin-bottom: 6px; }
-  .price-old {
-    font-size: 15px;
-    color: var(--text-muted);
-    text-decoration: line-through;
-    margin-bottom: 4px;
-  }
-  .price-save {
-    display: inline-block;
-    padding: 3px 10px;
-    border-radius: 50px;
-    background: rgba(34,197,94,0.15);
-    border: 1px solid rgba(34,197,94,0.3);
-    font-size: 12px;
-    color: #22c55e;
-    margin-bottom: 20px;
-  }
-
-  .divider { height: 1px; background: rgba(255,255,255,0.08); margin: 20px 0; }
-  .light-mode .divider { background: rgba(0,0,0,0.08); }
-
-  .services-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
-
-  .service-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 14px;
-    border-radius: 12px;
-    background: var(--surface);
-    border: 1px solid transparent;
-    cursor: pointer;
-    transition: all 0.25s;
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--text-main);
-  }
-  .service-item:hover {
-    background: var(--surface-hover);
-    border-color: rgba(241,90,37,0.3);
-    color: var(--primary);
-  }
-  .service-dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: var(--grad);
-    flex-shrink: 0;
-  }
-  .service-arrow {
-    margin-right: auto;
-    font-size: 11px;
-    color: var(--text-muted);
-    transition: transform 0.2s;
-  }
-  .service-item:hover .service-arrow { transform: translateX(-3px); color: var(--primary); }
-
-  .package-goal {
-    padding: 12px 16px;
-    border-radius: 12px;
-    background: rgba(241,90,37,0.08);
-    border: 1px solid rgba(241,90,37,0.2);
-    font-size: 13px;
-    color: var(--text-muted);
-    line-height: 1.6;
-    margin-bottom: 20px;
-  }
-  .package-goal strong { color: var(--primary); }
-
-  .btn-offer {
-    width: 100%;
-    padding: 14px;
-    border-radius: 14px;
-    background: var(--grad);
-    border: none;
-    color: white;
-    font-family: 'IBM Plex Sans Arabic', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-  }
-  .btn-offer:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(241,90,37,0.4); }
-
-  /* Modal */
-  .modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.7);
-    backdrop-filter: blur(8px);
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s;
-  }
-  .modal-overlay.active { opacity: 1; pointer-events: all; }
-
-  .modal-box {
-    background: var(--grad-bg);
-    border: 1px solid var(--card-border);
-    border-radius: 24px;
-    padding: 36px;
-    max-width: 600px;
-    width: 100%;
-    max-height: 80vh;
-    overflow-y: auto;
-    transform: translateY(20px);
-    transition: transform 0.3s;
-    position: relative;
-  }
-  .light-mode .modal-box { background: #fff8f5; }
-  .modal-overlay.active .modal-box { transform: translateY(0); }
-
-  .modal-close {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    width: 36px; height: 36px;
-    border-radius: 50%;
-    background: var(--surface);
-    border: 1px solid var(--card-border);
-    color: var(--text-main);
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 16px;
-    transition: all 0.2s;
-  }
-  .modal-close:hover { background: rgba(236,33,89,0.2); }
-
-  .modal-title {
-    font-size: 22px;
-    font-weight: 700;
-    margin-bottom: 6px;
-    background: var(--grad);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  .modal-subtitle { font-size: 13px; color: var(--text-muted); margin-bottom: 24px; }
-
-  .modal-details-list { display: flex; flex-direction: column; gap: 10px; }
-
-  .detail-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    padding: 14px;
-    border-radius: 12px;
-    background: var(--surface);
-    border: 1px solid rgba(241,90,37,0.1);
-  }
-  .detail-check {
-    width: 22px; height: 22px;
-    border-radius: 50%;
-    background: var(--grad);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 11px;
-    flex-shrink: 0;
-    margin-top: 1px;
-  }
-  .detail-text { font-size: 14px; line-height: 1.6; color: var(--text-main); }
-
-  /* PDF Modal */
-  .pdf-modal-box {
-    max-width: 520px;
-  }
-  .pdf-form { display: flex; flex-direction: column; gap: 16px; margin-top: 20px; }
-  .pdf-form label { font-size: 13px; color: var(--text-muted); margin-bottom: 4px; display: block; }
-  .pdf-form input, .pdf-form select {
-    width: 100%;
-    padding: 12px 16px;
-    border-radius: 12px;
-    background: var(--surface);
-    border: 1px solid var(--card-border);
-    color: var(--text-main);
-    font-family: 'IBM Plex Sans Arabic', sans-serif;
-    font-size: 14px;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-  .pdf-form input:focus, .pdf-form select:focus { border-color: var(--primary); }
-  .pdf-form select option { background: #1a0a00; color: white; }
-  .light-mode .pdf-form select option { background: white; color: #1a0a00; }
-
-  .btn-generate {
-    padding: 14px;
-    border-radius: 14px;
-    background: var(--grad);
-    border: none;
-    color: white;
-    font-family: 'IBM Plex Sans Arabic', sans-serif;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s;
-    display: flex; align-items: center; justify-content: center; gap: 8px;
-  }
-  .btn-generate:hover { opacity: 0.9; box-shadow: 0 8px 24px rgba(241,90,37,0.4); }
-
-  /* Footer */
-  footer {
-    border-top: 1px solid rgba(241,90,37,0.15);
-    padding: 30px 0;
-    text-align: center;
-  }
-  .footer-contact {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 24px;
-    margin-bottom: 16px;
-  }
-  .contact-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 13px;
-    color: var(--text-muted);
-  }
-  .contact-item span { color: var(--primary); }
-  footer p { font-size: 12px; color: var(--text-muted); }
-
-  /* Scrollbar */
-  ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: rgba(241,90,37,0.4); border-radius: 3px; }
-
-  @media (max-width: 640px) {
-    .packages-grid { grid-template-columns: 1fr; }
-    .header-actions { gap: 6px; }
-    .toggle-btn { padding: 7px 10px; font-size: 12px; }
-  }
+/* ═══════════════════════════════
+   PDF RENDER TEMPLATE (hidden)
+═══════════════════════════════ */
+#pdfRender{
+  position:fixed;left:-9999px;top:0;
+  width:794px;
+  font-family:'IBM Plex Sans Arabic',sans-serif;
+  direction:rtl;background:#fff;
+  z-index:-1;
+}
+.pp{
+  width:794px;min-height:1123px;
+  background:#ffffff;
+  padding-bottom:60px;
+  position:relative;
+  overflow:hidden;
+}
+/* PDF header */
+.ph{
+  background:linear-gradient(135deg,#12101e 0%,#1e0a18 60%,#0d1228 100%);
+  padding:24px 36px 20px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.ph-logo{display:flex;align-items:center;gap:14px;}
+.ph-logo img{width:58px;height:58px;border-radius:12px;object-fit:cover;border:2px solid rgba(241,90,37,.45);}
+.ph-ln h2{color:#fff;font-size:16px;font-weight:800;margin-bottom:2px;}
+.ph-ln p{color:rgba(255,255,255,.5);font-size:10.5px;line-height:1.6;}
+.ph-rt .pot{
+  font-size:20px;font-weight:800;
+  background:linear-gradient(135deg,#f15a25,#ec2159);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  margin-bottom:3px;
+}
+.ph-rt p{color:rgba(255,255,255,.45);font-size:10.5px;}
+.pstripe{height:4px;background:linear-gradient(90deg,#f15a25,#ec2159,#f15a25);}
+/* PDF body */
+.pb{padding:26px 36px 70px;}
+/* client box */
+.pcl{
+  background:linear-gradient(135deg,#fff9f7,#fff7fa);
+  border:1px solid rgba(241,90,37,.25);
+  border-right:4px solid #f15a25;
+  border-radius:12px;padding:16px 20px;margin-bottom:20px;
+  display:flex;justify-content:space-between;align-items:flex-start;
+  gap:10px;
+}
+.pcl-l .plbl{font-size:9.5px;font-weight:700;color:#aaa;letter-spacing:.5px;text-transform:uppercase;margin-bottom:3px;}
+.pcl-l .pval{font-size:14.5px;font-weight:800;color:#1a0a1e;margin-bottom:3px;}
+.pcl-l .psub{font-size:10.5px;color:#555;line-height:1.65;}
+.pcl-r{text-align:left;flex-shrink:0;}
+.pcl-r .plbl{font-size:9.5px;font-weight:700;color:#aaa;letter-spacing:.5px;text-transform:uppercase;margin-bottom:3px;}
+.pcl-r .pval{font-size:13px;font-weight:700;color:#1a0a1e;}
+/* pkg header */
+.pkh{
+  background:linear-gradient(135deg,#f15a25,#ec2159);
+  border-radius:12px;padding:16px 22px;
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:18px;
+}
+.pkh h3{color:#fff;font-size:17px;font-weight:800;}
+.pkh-rt{text-align:left;}
+.pkh-p{color:#fff;font-size:26px;font-weight:800;line-height:1;}
+.pkh-po{color:rgba(255,255,255,.65);font-size:11px;text-decoration:line-through;margin-top:2px;}
+.pkh-dur{
+  display:inline-block;margin-top:5px;
+  background:rgba(255,255,255,.22);border-radius:50px;
+  padding:3px 12px;font-size:10.5px;color:#fff;
+}
+/* goal */
+.pgl{
+  background:#fff9f7;border:1px solid rgba(241,90,37,.18);
+  border-right:4px solid #ec2159;
+  border-radius:10px;padding:11px 16px;margin-bottom:18px;
+  font-size:12px;color:#444;line-height:1.7;
+}
+.pgl b{color:#ec2159;}
+/* section title */
+.pst{
+  font-size:13.5px;font-weight:800;color:#1a0a1e;
+  margin-bottom:12px;padding-bottom:6px;
+  border-bottom:2.5px solid;
+  border-image:linear-gradient(90deg,#f15a25,#ec2159) 1;
+  display:flex;align-items:center;gap:7px;
+}
+/* service block */
+.psvc{margin-bottom:16px;}
+.psvch{
+  background:linear-gradient(135deg,#1a0a1e,#2d0a1a);
+  border-radius:10px 10px 0 0;
+  padding:10px 16px;
+  display:flex;align-items:center;gap:9px;
+}
+.psvch-ic{font-size:16px;}
+.psvch h4{color:#fff;font-size:13px;font-weight:700;}
+.psvch span{color:rgba(255,255,255,.42);font-size:10px;margin-right:auto;}
+.psvci{border:1px solid rgba(241,90,37,.15);border-top:none;border-radius:0 0 10px 10px;overflow:hidden;}
+.psvr{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:9px 16px;font-size:11.5px;color:#333;line-height:1.55;
+  border-bottom:1px solid #f2eeec;
+}
+.psvr:last-child{border-bottom:none;}
+.psvr:nth-child(even){background:#fdfaf9;}
+.psvb{
+  width:17px;height:17px;border-radius:50%;
+  background:linear-gradient(135deg,#f15a25,#ec2159);
+  flex-shrink:0;display:flex;align-items:center;justify-content:center;
+  font-size:8.5px;color:#fff;margin-top:1px;
+}
+/* notes */
+.pnotes{
+  background:#f0f8ff;border:1px solid rgba(0,100,220,.18);
+  border-right:4px solid #0066cc;
+  border-radius:10px;padding:11px 16px;margin-top:16px;
+  font-size:11.5px;color:#333;line-height:1.65;
+}
+.pnotes b{color:#0066cc;}
+/* issuer */
+.piss{
+  background:linear-gradient(135deg,#fff9f7,#fff7fa);
+  border:1px solid rgba(241,90,37,.18);
+  border-radius:10px;padding:13px 18px;margin-top:16px;
+  font-size:11px;color:#555;line-height:1.8;text-align:center;
+}
+.piss b{color:#f15a25;}
+/* footer */
+.pfoot{
+  position:absolute;bottom:0;right:0;left:0;
+  background:linear-gradient(135deg,#12101e,#0d1228);
+  padding:11px 36px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.pfoot p{font-size:9px;color:rgba(255,255,255,.4);}
+.pfoot span{color:rgba(241,90,37,.75);font-size:10px;font-weight:600;}
 </style>
 </head>
-<body id="body">
+<body id="B">
+<div class="mesh"></div>
 
 <header>
-  <div class="container">
-    <div class="header-inner">
-      <div class="logo-area">
-        <img src="/mnt/user-data/uploads/1772287918824_image.png" alt="Al-ahly Agency" class="logo-img" onerror="this.style.display='none'">
-        <div class="logo-text">
-          <h1>الأهلي للتسويق الإلكتروني</h1>
-          <p>www.al-ahlyagency.com</p>
-        </div>
+  <div class="hdr">
+    <div class="logo">
+      <img src="/mnt/user-data/uploads/1772287918824_image.png" alt="Logo" onerror="this.style.display='none'">
+      <div>
+        <h1>الأهلي للتسويق الإلكتروني</h1>
+        <p>www.al-ahlyagency.com</p>
       </div>
-      <div class="header-actions">
-        <button class="toggle-btn" onclick="toggleMode()">
-          <span id="mode-icon">☀️</span>
-          <span id="mode-text">وضع النهار</span>
-        </button>
-        <button class="toggle-btn" onclick="openPdfModal()" style="background: var(--grad); border-color: transparent; color: white;">
-          📄 إنشاء عرض سعر
-        </button>
-      </div>
+    </div>
+    <div class="hbtns">
+      <button class="bsm" onclick="toggleMode()"><span id="mi">☀️</span><span id="mt"> وضع النهار</span></button>
+      <button class="bsm g" onclick="openPdf(null)"><span>📄</span><span> عرض سعر PDF</span></button>
     </div>
   </div>
 </header>
 
-<main>
-  <div class="container">
-    <div class="hero">
-      <div class="hero-badge">✨ عروض حصرية لفترة محدودة</div>
-      <h2>باقات التسويق الرقمي<br><span>الأهلي للتسويق الإلكتروني</span></h2>
-      <p>حلول تسويقية متكاملة تناسب جميع احتياجات عملك — من الانطلاقة إلى القمة</p>
-    </div>
+<div class="hero">
+  <div class="chip">✨ عروض حصرية — الأهلي للتسويق الإلكتروني</div>
+  <h2>باقات التسويق الرقمي<br><em>المتكاملة</em></h2>
+  <p>حلول تسويقية احترافية تناسب جميع أحجام الأعمال — من الانطلاق إلى النخبة</p>
+</div>
 
-    <div class="packages-grid" id="packages-grid">
-      <!-- Generated by JS -->
-    </div>
-  </div>
-</main>
+<div class="wrap"><div class="grid" id="grid"></div></div>
 
 <footer>
-  <div class="container">
-    <div class="footer-contact">
-      <div class="contact-item"><span>📞</span> 920002058</div>
-      <div class="contact-item"><span>✉️</span> Hello@al-ahlyagency.com</div>
-      <div class="contact-item"><span>📍</span> السويدي - الرياض</div>
-      <div class="contact-item"><span>🌐</span> www.al-ahlyagency.com</div>
-    </div>
-    <p>© 2025 الأهلي للتسويق الإلكتروني — جميع الحقوق محفوظة</p>
+  <div class="frow">
+    <div class="fc"><i>📞</i> 920002058</div>
+    <div class="fc"><i>✉️</i> Hello@al-ahlyagency.com</div>
+    <div class="fc"><i>📍</i> السويدي — الرياض</div>
+    <div class="fc"><i>🌐</i> www.al-ahlyagency.com</div>
   </div>
+  <small>© 2025 الأهلي للتسويق الإلكتروني — جميع الحقوق محفوظة</small>
 </footer>
 
-<!-- Service Detail Modal -->
-<div class="modal-overlay" id="service-modal">
-  <div class="modal-box">
-    <button class="modal-close" onclick="closeModal('service-modal')">✕</button>
-    <div class="modal-title" id="modal-service-title"></div>
-    <div class="modal-subtitle" id="modal-service-sub"></div>
-    <div class="modal-details-list" id="modal-service-details"></div>
+<!-- Service Modal -->
+<div class="ov" id="svcMod">
+  <div class="mb">
+    <button class="mcl" onclick="cls('svcMod')">✕</button>
+    <div class="mtt" id="sm-t"></div>
+    <div class="mst" id="sm-s"></div>
+    <div class="dl" id="sm-l"></div>
   </div>
 </div>
 
 <!-- PDF Modal -->
-<div class="modal-overlay" id="pdf-modal">
-  <div class="modal-box pdf-modal-box">
-    <button class="modal-close" onclick="closeModal('pdf-modal')">✕</button>
-    <div class="modal-title">📄 إنشاء عرض سعر</div>
-    <div class="modal-subtitle">أدخل بيانات العميل لإنشاء عرض السعر</div>
-    <div class="pdf-form">
-      <div>
-        <label>اسم العميل / الشركة</label>
-        <input type="text" id="client-name" placeholder="مؤسسة / شركة ...">
-      </div>
-      <div>
-        <label>الباقة المختارة</label>
-        <select id="pdf-package-select">
-          <option value="">— اختر الباقة —</option>
-        </select>
-      </div>
-      <div>
-        <label>تاريخ العرض</label>
-        <input type="date" id="offer-date">
-      </div>
-      <div>
-        <label>ملاحظات إضافية (اختياري)</label>
-        <input type="text" id="offer-notes" placeholder="أي ملاحظات خاصة بالعميل">
-      </div>
-      <button class="btn-generate" onclick="generatePDF()">
-        🚀 تصدير عرض السعر PDF
-      </button>
+<div class="ov" id="pdfMod">
+  <div class="mb" style="max-width:500px">
+    <button class="mcl" onclick="cls('pdfMod')">✕</button>
+    <div class="mtt">📄 إنشاء عرض سعر</div>
+    <div class="mst">أدخل بيانات العميل لتصدير عرض السعر بصيغة PDF</div>
+    <div class="pf">
+      <div><label>اسم العميل / الشركة *</label><input id="cn" placeholder="مثال: شركة الفجر للتجارة" /></div>
+      <div><label>الباقة المختارة *</label><select id="cp"></select></div>
+      <div><label>تاريخ العرض *</label><input type="date" id="cd" /></div>
+      <div><label>ملاحظات إضافية (اختياري)</label><input id="cno" placeholder="أي ملاحظات خاصة بالعميل..." /></div>
+      <button class="bpdf" id="gb" onclick="generatePDF()">🚀 تصدير عرض السعر PDF</button>
     </div>
   </div>
 </div>
 
-<script>
-const PACKAGES = [
-  {
-    id: 'launch',
-    name: 'باقة الانطلاقة',
-    icon: '🚀',
-    duration: '30 يوم',
-    price: 2850,
-    oldPrice: 3400,
-    goal: 'زيادة المبيعات – رفع الوعي – نتائج قابلة للقياس بأقل تكلفة.',
-    featured: false,
-    services: ['social','media-buying','seo','website','cro']
-  },
-  {
-    id: 'profit',
-    name: 'باقة الربح',
-    icon: '💰',
-    duration: 'شهر (فل باكدج) – شهرين ميديا',
-    price: 5300,
-    oldPrice: 6800,
-    goal: 'تركيز أكبر على بناء حضور قوي وتحقيق مبيعات مستقرة.',
-    featured: true,
-    services: ['social','media-buying','seo','website','cro']
-  },
-  {
-    id: 'top',
-    name: 'باقة القمة',
-    icon: '🏆',
-    duration: '90 يوم',
-    price: 6900,
-    oldPrice: 10100,
-    goal: 'مثالية للشركات اللي تبغى نتائج واضحة خلال ربع سنة.',
-    featured: false,
-    services: ['social','media-buying','seo','website','cro']
-  },
-  {
-    id: 'excellence',
-    name: 'باقة التميز',
-    icon: '⭐',
-    duration: '180 يوم',
-    price: 12800,
-    oldPrice: 19400,
-    goal: 'مناسبة للعلامات التجارية اللي تبغى توسع حصتها السوقية.',
-    featured: false,
-    services: ['social','media-buying','seo','website','cro','growth']
-  },
-  {
-    id: 'elite',
-    name: 'باقة النخبة',
-    icon: '👑',
-    duration: '360 يوم',
-    price: 22000,
-    oldPrice: 25200,
-    goal: 'بناء علامة تجارية قوية ومستقرة على مدار العام.',
-    featured: false,
-    services: ['social','media-buying','seo','website','cro','growth-annual']
-  },
-  {
-    id: 'identity',
-    name: 'باقة الهوية البصرية',
-    icon: '🎨',
-    duration: 'مشروع كامل',
-    price: 2000,
-    oldPrice: 3500,
-    goal: 'بناء هوية بصرية قوية وتمييز واضح لعلامتك التجارية.',
-    featured: false,
-    services: ['brand-design','brand-strategy','brand-materials']
-  },
-  {
-    id: 'website-pkg',
-    name: 'باقة تحسين الموقع',
-    icon: '🌐',
-    duration: 'مشروع كامل',
-    price: 1800,
-    oldPrice: 2200,
-    goal: 'تحسين أداء الموقع ورفع نسب التحويل وتفعيل بوابات الدفع.',
-    featured: false,
-    services: ['website-mgmt','cro-web','payment']
-  }
-];
+<div id="pdfRender"></div>
 
-const SERVICES = {
-  'social': {
-    name: 'Social Media Management',
-    nameAr: 'إدارة السوشيال ميديا',
-    icon: '📱',
-    details: [
-      'تصميم ونشر محتوى بصري ونصي جذاب يعكس هوية علامتك التجارية',
-      'التخطيط وجدولة المنشورات وفق استراتيجية محتوى متكاملة',
-      'إدارة الرسائل والتعليقات والتفاعل مع الجمهور',
-      'تحليل الأداء وتقديم تقارير شهرية مفصلة',
-      'اقتراح وتطبيق أفضل الأوقات للنشر لزيادة الوصول',
-      'تصميم قوالب بصرية ثابتة تعزز الهوية البصرية للعلامة'
-    ]
-  },
-  'media-buying': {
-    name: 'Media Buying',
-    nameAr: 'الميديا باينج',
-    icon: '📢',
-    details: [
-      'تخطيط الحملات الإعلانية وفق أهداف واضحة وقابلة للقياس',
-      'تحديد الجمهور المستهدف بدقة عالية (سن، اهتمامات، موقع، سلوك)',
-      'تصميم إعلانات بصرية ونصية مقنعة وفعّالة',
-      'متابعة الأداء يومياً وإجراء التحسينات المستمرة',
-      'تحسين تكلفة الاكتساب (CPA) وزيادة العائد على الإنفاق (ROAS)',
-      'إعداد تقارير أداء الحملات أسبوعية وشهرية'
-    ]
-  },
-  'seo': {
-    name: 'SEO',
-    nameAr: 'تحسين محركات البحث',
-    icon: '🔍',
-    details: [
-      'تحليل الكلمات المفتاحية المستهدفة في مجال عملك',
-      'تحسين المحتوى والبنية التقنية للموقع لمتطلبات محركات البحث',
-      'بناء روابط خارجية آمنة وعالية الجودة (Link Building)',
-      'تحسين سرعة الموقع وتجربة المستخدم',
-      'تحسين الـ Meta Tags والـ Schema Markup',
-      'مراقبة ترتيب الكلمات المفتاحية وتقديم تقارير شهرية'
-    ]
-  },
-  'website': {
-    name: 'Website Management',
-    nameAr: 'إدارة الموقع',
-    icon: '🌐',
-    details: [
-      'تحسين تجربة المستخدم (UX) للحصول على أفضل أداء',
-      'تطوير الواجهة البصرية وتحديث التصميم',
-      'ضمان توافق الموقع مع جميع الأجهزة (Responsive Design)',
-      'متابعة أداء الموقع وحل المشاكل التقنية فور حدوثها',
-      'تحديث المحتوى والصفحات بشكل منتظم',
-      'تأمين الموقع وتحديث الأنظمة والإضافات'
-    ]
-  },
-  'cro': {
-    name: 'CRO',
-    nameAr: 'تحسين معدل التحويل',
-    icon: '🎯',
-    details: [
-      'تحليل سلوك الزوار عبر Heatmaps وSession Recordings',
-      'اختبار وتحسين الصفحات (A/B Testing)',
-      'رفع نسبة التحويل من زائر إلى عميل فعلي',
-      'تحسين صفحات الهبوط (Landing Pages)',
-      'تحليل مسار التحويل (Funnel Analysis) وإصلاح نقاط التسرب',
-      'تحسين نماذج الاتصال والـ CTAs لزيادة التفاعل'
-    ]
-  },
-  'growth': {
-    name: 'خطة نمو نصف سنوية',
-    nameAr: 'خطة النمو',
-    icon: '📈',
-    details: [
-      'تقارير أداء استراتيجية شاملة كل شهر',
-      'خطة نمو مخصصة للأشهر الستة القادمة',
-      'تحليل المنافسين وفرص السوق',
-      'توصيات استراتيجية لزيادة الحصة السوقية',
-      'اجتماعات مراجعة دورية مع الفريق الإداري',
-      'تحسين مستمر للاستراتيجيات بناءً على البيانات'
-    ]
-  },
-  'growth-annual': {
-    name: 'خطة توسع سنوية',
-    nameAr: 'خطة التوسع السنوي',
-    icon: '🌟',
-    details: [
-      'SEO استراتيجي طويل المدى مع استهداف كلمات مفتاحية تنافسية',
-      'CRO متقدم مع تحليل عمق سلوك المستخدم',
-      'خطة توسع سنوية شاملة لجميع القنوات الرقمية',
-      'تقارير أداء استراتيجية ربع سنوية',
-      'بناء علامة تجارية قوية ومستقرة على مدار العام',
-      'تحسين مستمر للحملات والإعلانات عبر جميع المنصات'
-    ]
-  },
-  'brand-design': {
-    name: 'تصميم الهوية البصرية',
-    nameAr: 'الهوية البصرية',
-    icon: '🎨',
-    details: [
-      'تصميم الشعار بثلاثة أشكال: رمزي، نصي، ومختصر',
-      'اختيار نظام الألوان المتناسق مع طبيعة العمل',
-      'تحديد الخطوط (Typography) المناسبة للهوية',
-      'تصميم Moodboard يعكس شخصية العلامة التجارية',
-      'إعداد Brand Guidelines الشاملة',
-      'تصميم تجربة العميل والتغليف (Packaging)'
-    ]
-  },
-  'brand-strategy': {
-    name: 'استراتيجية العلامة التجارية',
-    nameAr: 'الاستراتيجية',
-    icon: '💡',
-    details: [
-      'تحليل السوق والمنافسين بشكل معمق',
-      'صياغة رؤية ورسالة العلامة التجارية',
-      'تحديد القيم الجوهرية للعلامة',
-      'تحديد Voice & Tone الخاص بالتواصل',
-      'استراتيجية التمركز (Positioning) في السوق',
-      'Brand Storytelling لبناء اتصال عاطفي مع الجمهور'
-    ]
-  },
-  'brand-materials': {
-    name: 'المطبوعات والمواد التسويقية',
-    nameAr: 'المطبوعات',
-    icon: '📄',
-    details: [
-      'تصميم بطاقات الأعمال (Business Cards)',
-      'تصميم الأوراق الرسمية (Letterheads)',
-      'تصميم الأظرف والمواد المكتبية',
-      'تصميم المطبوعات التسويقية الأساسية',
-      'تصليم ملفات جاهزة للطباعة بدقة عالية',
-      'ملف Brand Kit شامل لجميع التصاميم'
-    ]
-  },
-  'website-mgmt': {
-    name: 'Website Management',
-    nameAr: 'إدارة الموقع',
-    icon: '🌐',
-    details: [
-      'تحسين تجربة المستخدم (UX) للحصول على أفضل تفاعل',
-      'تطوير وتحديث الواجهة البصرية للموقع',
-      'ضمان توافق الموقع مع جميع الأجهزة',
-      'تأمين الموقع بشهادة SSL وتطبيق PCI Compliance',
-      'متابعة الأداء التقني وحل المشاكل',
-      'تحديث المحتوى والصفحات بشكل منتظم'
-    ]
-  },
-  'cro-web': {
-    name: 'CRO – تحسين التحويل',
-    nameAr: 'تحسين التحويل',
-    icon: '🎯',
-    details: [
-      'تحليل سلوك الزوار وتحديد نقاط التسرب',
-      'اختبار وتحسين صفحات الموقع (A/B Testing)',
-      'تحسين صفحات الهبوط لرفع نسب التحويل',
-      'تحسين نماذج الاتصال والـ Call-to-Action',
-      'رصد ومتابعة معدلات التحويل باستمرار',
-      'تقارير تحليلية دورية لقياس الأداء'
-    ]
-  },
-  'payment': {
-    name: 'بوابات الدفع الإلكتروني',
-    nameAr: 'بوابات الدفع',
-    icon: '💳',
-    details: [
-      'تفعيل بوابة مدى للدفع المحلي',
-      'تفعيل STC Pay للمدفوعات السريعة',
-      'تفعيل Apple Pay وGoogle Pay',
-      'تفعيل PayPal للمدفوعات الدولية',
-      'تفعيل Visa وMasterCard',
-      'ضبط إعدادات الدفع وتأمين المعاملات المالية (SSL/PCI Compliance)'
-    ]
-  }
+<script>
+const SVCS={
+  social:{n:'إدارة السوشيال ميديا',en:'Social Media Management',ic:'📱',items:[
+    'تصميم ونشر محتوى بصري ونصي جذاب يعكس هوية علامتك التجارية',
+    'التخطيط وجدولة المنشورات وفق استراتيجية محتوى متكاملة',
+    'إدارة الرسائل والتعليقات والتفاعل مع الجمهور بشكل احترافي',
+    'تحليل الأداء وتقديم تقارير شهرية مفصلة بالأرقام',
+    'اقتراح وتطبيق أفضل الأوقات للنشر لزيادة الوصول العضوي',
+    'تصميم قوالب بصرية ثابتة تعزز الهوية البصرية للعلامة التجارية'
+  ]},
+  media:{n:'الميديا باينج',en:'Media Buying',ic:'📢',items:[
+    'تخطيط الحملات الإعلانية وفق أهداف واضحة وقابلة للقياس',
+    'تحديد الجمهور المستهدف بدقة عالية (العمر، الاهتمامات، الموقع، السلوك)',
+    'تصميم إعلانات بصرية ونصية مقنعة وفعّالة بأسلوب احترافي',
+    'متابعة أداء الحملات يومياً وإجراء التحسينات المستمرة',
+    'تحسين تكلفة الاكتساب (CPA) وزيادة العائد على الإنفاق (ROAS)',
+    'إعداد تقارير أداء الحملات أسبوعية وشهرية'
+  ]},
+  seo:{n:'تحسين محركات البحث',en:'SEO',ic:'🔍',items:[
+    'تحليل الكلمات المفتاحية المستهدفة في مجال عملك',
+    'تحسين المحتوى والبنية التقنية للموقع لمتطلبات محركات البحث',
+    'بناء روابط خارجية آمنة وعالية الجودة (Link Building)',
+    'تحسين سرعة الموقع وتجربة المستخدم الشاملة',
+    'تحسين الـ Meta Tags والـ Schema Markup',
+    'مراقبة ترتيب الكلمات المفتاحية وتقديم تقارير شهرية'
+  ]},
+  web:{n:'إدارة الموقع الإلكتروني',en:'Website Management',ic:'🌐',items:[
+    'تحسين تجربة المستخدم (UX) للحصول على أفضل أداء ممكن',
+    'تطوير الواجهة البصرية وتحديث التصميم بشكل دوري',
+    'ضمان توافق الموقع مع جميع الأجهزة والمتصفحات (Responsive Design)',
+    'متابعة أداء الموقع وحل المشاكل التقنية فور حدوثها',
+    'تحديث المحتوى والصفحات بشكل منتظم',
+    'تأمين الموقع وتحديث الأنظمة والإضافات باستمرار'
+  ]},
+  cro:{n:'تحسين معدل التحويل',en:'CRO',ic:'🎯',items:[
+    'تحليل سلوك الزوار عبر Heatmaps وSession Recordings',
+    'اختبار وتحسين الصفحات بأسلوب A/B Testing المنهجي',
+    'رفع نسبة التحويل من زائر إلى عميل فعلي',
+    'تحسين صفحات الهبوط (Landing Pages) لزيادة التحويلات',
+    'تحليل مسار التحويل (Funnel Analysis) وإصلاح نقاط التسرب',
+    'تحسين نماذج الاتصال وعبارات الدعوة للعمل (CTAs)'
+  ]},
+  growth:{n:'خطة النمو نصف السنوي',en:'6-Month Growth Plan',ic:'📈',items:[
+    'تقارير أداء استراتيجية شاملة شهرية',
+    'خطة نمو مخصصة للأشهر الستة القادمة',
+    'تحليل المنافسين وفرص السوق بشكل دوري',
+    'توصيات استراتيجية لزيادة الحصة السوقية',
+    'اجتماعات مراجعة دورية مع الفريق الإداري',
+    'تحسين مستمر للاستراتيجيات بناءً على البيانات الفعلية'
+  ]},
+  annual:{n:'خطة التوسع السنوي',en:'Annual Expansion Plan',ic:'🌟',items:[
+    'SEO استراتيجي طويل المدى مع استهداف كلمات مفتاحية تنافسية',
+    'CRO متقدم مع تحليل عمق سلوك المستخدم على مدار السنة',
+    'خطة توسع سنوية شاملة لجميع القنوات الرقمية',
+    'تقارير أداء استراتيجية ربع سنوية',
+    'بناء علامة تجارية قوية ومستقرة على مدار العام الكامل',
+    'تحسين مستمر للحملات الإعلانية عبر جميع المنصات'
+  ]},
+  bDesign:{n:'تصميم الهوية البصرية',en:'Brand Visual Design',ic:'🎨',items:[
+    'تصميم الشعار بثلاثة أشكال: رمزي ونصي ومختصر',
+    'اختيار نظام الألوان المتناسق مع طبيعة ومجال العمل',
+    'تحديد الخطوط (Typography) المناسبة لهوية العلامة',
+    'تصميم Moodboard يعكس شخصية وروح العلامة التجارية',
+    'إعداد Brand Guidelines الشاملة للاستخدام الداخلي والخارجي',
+    'تصميم تجربة العميل والتغليف (Packaging)'
+  ]},
+  bStrat:{n:'استراتيجية العلامة التجارية',en:'Brand Strategy',ic:'💡',items:[
+    'تحليل السوق والمنافسين بشكل معمق ودقيق',
+    'صياغة رؤية ورسالة العلامة التجارية',
+    'تحديد القيم الجوهرية للعلامة التجارية',
+    'تحديد أسلوب التواصل والنبرة (Voice & Tone)',
+    'استراتيجية التمركز (Positioning) في السوق المستهدف',
+    'Brand Storytelling لبناء اتصال عاطفي مع الجمهور'
+  ]},
+  bMat:{n:'المطبوعات والمواد التسويقية',en:'Brand Materials',ic:'📄',items:[
+    'تصميم بطاقات الأعمال (Business Cards) بجودة احترافية',
+    'تصميم الأوراق الرسمية (Letterheads)',
+    'تصميم الأظرف والمواد المكتبية',
+    'تصميم المطبوعات التسويقية الأساسية',
+    'تسليم ملفات جاهزة للطباعة بدقة عالية',
+    'ملف Brand Kit شامل لجميع التصاميم والإرشادات'
+  ]},
+  wMgmt:{n:'إدارة الموقع الإلكتروني',en:'Website Management',ic:'🌐',items:[
+    'تحسين تجربة المستخدم (UX) للحصول على أفضل تفاعل',
+    'تطوير وتحديث الواجهة البصرية للموقع بشكل دوري',
+    'ضمان توافق الموقع مع جميع الأجهزة والمتصفحات',
+    'تأمين الموقع بشهادة SSL وتطبيق معايير PCI Compliance',
+    'متابعة الأداء التقني وحل المشاكل الطارئة فوراً',
+    'تحديث المحتوى والصفحات بشكل منتظم'
+  ]},
+  pay:{n:'بوابات الدفع الإلكتروني',en:'Payment Gateways',ic:'💳',items:[
+    'تفعيل بوابة مدى للدفع المحلي السريع',
+    'تفعيل STC Pay للمدفوعات السريعة',
+    'تفعيل Apple Pay وGoogle Pay',
+    'تفعيل PayPal للمدفوعات الدولية',
+    'تفعيل Visa وMasterCard',
+    'ضبط إعدادات الدفع وتأمين المعاملات المالية (SSL / PCI Compliance)'
+  ]}
 };
 
-let isDark = true;
+const PKGS=[
+  {id:'launch',n:'باقة الانطلاقة',ic:'🚀',d:'30 يوم',p:2850,o:3400,hot:false,
+   g:'زيادة المبيعات — رفع الوعي — نتائج قابلة للقياس بأقل تكلفة.',
+   s:['social','media','seo','web','cro']},
+  {id:'profit',n:'باقة الربح',ic:'💰',d:'شهر (فل باكدج) — شهرين ميديا',p:5300,o:6800,hot:true,
+   g:'تركيز أكبر على بناء حضور قوي وتحقيق مبيعات مستقرة.',
+   s:['social','media','seo','web','cro']},
+  {id:'top',n:'باقة القمة',ic:'🏆',d:'90 يوم',p:6900,o:10100,hot:false,
+   g:'مثالية للشركات التي تريد نتائج واضحة خلال ربع سنة.',
+   s:['social','media','seo','web','cro']},
+  {id:'excel',n:'باقة التميز',ic:'⭐',d:'180 يوم',p:12800,o:19400,hot:false,
+   g:'مناسبة للعلامات التجارية التي تريد توسيع حصتها السوقية.',
+   s:['social','media','seo','web','cro','growth']},
+  {id:'elite',n:'باقة النخبة',ic:'👑',d:'360 يوم',p:22000,o:25200,hot:false,
+   g:'بناء علامة تجارية قوية ومستقرة على مدار العام.',
+   s:['social','media','seo','web','cro','annual']},
+  {id:'identity',n:'باقة الهوية البصرية',ic:'🎨',d:'مشروع كامل',p:2000,o:3500,hot:false,
+   g:'بناء هوية بصرية قوية وتمييز واضح لعلامتك التجارية في السوق.',
+   s:['bDesign','bStrat','bMat']},
+  {id:'webpkg',n:'باقة تحسين الموقع',ic:'🌐',d:'مشروع كامل',p:1800,o:2200,hot:false,
+   g:'تحسين أداء الموقع، رفع نسب التحويل، وتفعيل بوابات الدفع.',
+   s:['wMgmt','cro','pay']}
+];
 
-function toggleMode() {
-  isDark = !isDark;
-  document.getElementById('body').classList.toggle('light-mode', !isDark);
-  document.getElementById('mode-icon').textContent = isDark ? '☀️' : '🌙';
-  document.getElementById('mode-text').textContent = isDark ? 'وضع النهار' : 'وضع الليل';
+let dark=true;
+function toggleMode(){
+  dark=!dark;
+  document.getElementById('B').classList.toggle('lm',!dark);
+  document.getElementById('mi').textContent=dark?'☀️':'🌙';
+  document.getElementById('mt').textContent=dark?' وضع النهار':' وضع الليل';
 }
 
-function getSaving(p, op) {
-  return Math.round((1 - p/op) * 100);
-}
-
-function renderPackages() {
-  const grid = document.getElementById('packages-grid');
-  grid.innerHTML = PACKAGES.map(pkg => {
-    const saving = getSaving(pkg.price, pkg.oldPrice);
-    const servicesHtml = pkg.services.map(sId => {
-      const s = SERVICES[sId];
-      if (!s) return '';
-      return `<div class="service-item" onclick="showService('${sId}', '${pkg.name}')">
-        <span class="service-dot"></span>
-        <span>${s.nameAr || s.name}</span>
-        <span class="service-arrow">← التفاصيل</span>
-      </div>`;
-    }).join('');
-
-    return `<div class="package-card ${pkg.featured ? 'featured' : ''}">
-      ${pkg.featured ? '<div class="featured-badge">⚡ الأكثر طلباً</div>' : ''}
-      <div class="package-icon">${pkg.icon}</div>
-      <div class="package-name">${pkg.name}</div>
-      <div class="package-duration">📅 ${pkg.duration}</div>
-      <div class="price-area">
-        <div class="price-new">${pkg.price.toLocaleString()}</div>
-        <div class="price-currency">ريال</div>
-      </div>
-      <div class="price-old">بدلاً من ${pkg.oldPrice.toLocaleString()} ريال</div>
-      <div class="price-save">توفير ${saving}%</div>
-      <div class="divider"></div>
-      <div class="services-list">${servicesHtml}</div>
-      <div class="package-goal">🎯 <strong>الهدف:</strong> ${pkg.goal}</div>
-      <button class="btn-offer" onclick="openPdfModalFor('${pkg.id}')">
-        📄 إنشاء عرض سعر لهذه الباقة
-      </button>
+function renderGrid(){
+  document.getElementById('grid').innerHTML=PKGS.map(p=>{
+    const sv=Math.round((1-p.p/p.o)*100);
+    return`<div class="card${p.hot?' hot':''}">
+      ${p.hot?'<div class="htag">⚡ الأكثر طلباً</div>':''}
+      <div class="cicon">${p.ic}</div>
+      <div class="cname">${p.n}</div>
+      <div class="cdur">📅 ${p.d}</div>
+      <div class="prow"><div class="pval">${p.p.toLocaleString('ar-EG')}</div><div class="punit">ريال</div></div>
+      <div class="pold">بدلاً من ${p.o.toLocaleString('ar-EG')} ريال</div>
+      <div class="stag">توفير ${sv}%</div>
+      <div class="div"></div>
+      <div class="slist">${p.s.map(id=>{
+        const sv2=SVCS[id];if(!sv2)return'';
+        return`<div class="sit" onclick="showSvc('${id}','${p.n}')">
+          <span class="sdot"></span><span>${sv2.n}</span><span class="sarr">← التفاصيل</span>
+        </div>`;
+      }).join('')}</div>
+      <div class="gbox"><b>🎯 الهدف:</b> ${p.g}</div>
+      <button class="boff" onclick="openPdf('${p.id}')">📄 إنشاء عرض سعر لهذه الباقة</button>
     </div>`;
   }).join('');
 }
 
-function showService(serviceId, pkgName) {
-  const s = SERVICES[serviceId];
-  if (!s) return;
-  document.getElementById('modal-service-title').textContent = `${s.icon} ${s.nameAr || s.name}`;
-  document.getElementById('modal-service-sub').textContent = `تفاصيل الخدمة ضمن ${pkgName}`;
-  document.getElementById('modal-service-details').innerHTML = s.details.map(d => `
-    <div class="detail-item">
-      <div class="detail-check">✓</div>
-      <div class="detail-text">${d}</div>
-    </div>`).join('');
-  document.getElementById('service-modal').classList.add('active');
+function showSvc(id,pkg){
+  const s=SVCS[id];if(!s)return;
+  document.getElementById('sm-t').textContent=s.ic+' '+s.n;
+  document.getElementById('sm-s').textContent='تفاصيل الخدمة ضمن '+pkg;
+  document.getElementById('sm-l').innerHTML=s.items.map(d=>`<div class="di"><div class="dc">✓</div><div class="dt">${d}</div></div>`).join('');
+  document.getElementById('svcMod').classList.add('on');
 }
+function cls(id){document.getElementById(id).classList.remove('on');}
+document.querySelectorAll('.ov').forEach(el=>el.addEventListener('click',e=>{if(e.target===el)el.classList.remove('on');}));
 
-function openModal(id) {
-  document.getElementById(id).classList.add('active');
+function openPdf(pkgId){
+  document.getElementById('cd').value=new Date().toISOString().split('T')[0];
+  if(pkgId)document.getElementById('cp').value=pkgId;
+  document.getElementById('pdfMod').classList.add('on');
 }
-function closeModal(id) {
-  document.getElementById(id).classList.remove('active');
-}
-function openPdfModal() {
-  // Set today's date
-  document.getElementById('offer-date').value = new Date().toISOString().split('T')[0];
-  openModal('pdf-modal');
-}
-function openPdfModalFor(pkgId) {
-  document.getElementById('offer-date').value = new Date().toISOString().split('T')[0];
-  document.getElementById('pdf-package-select').value = pkgId;
-  openModal('pdf-modal');
-}
-
-// Populate package select
-function populateSelect() {
-  const sel = document.getElementById('pdf-package-select');
-  PACKAGES.forEach(p => {
-    const opt = document.createElement('option');
-    opt.value = p.id;
-    opt.textContent = `${p.icon} ${p.name} — ${p.price.toLocaleString()} ريال`;
-    sel.appendChild(opt);
+function populateSel(){
+  const sel=document.getElementById('cp');
+  sel.innerHTML='<option value="">— اختر الباقة —</option>';
+  PKGS.forEach(p=>{
+    const o=document.createElement('option');
+    o.value=p.id;o.textContent=`${p.ic} ${p.n} — ${p.p.toLocaleString('ar-EG')} ريال`;
+    sel.appendChild(o);
   });
 }
 
-function generatePDF() {
-  const clientName = document.getElementById('client-name').value.trim();
-  const pkgId = document.getElementById('pdf-package-select').value;
-  const offerDate = document.getElementById('offer-date').value;
-  const notes = document.getElementById('offer-notes').value.trim();
+/* ══════════════════════════
+   PDF GENERATION
+══════════════════════════ */
+async function generatePDF(){
+  const clientName=document.getElementById('cn').value.trim();
+  const pkgId=document.getElementById('cp').value;
+  const dateVal=document.getElementById('cd').value;
+  const notes=document.getElementById('cno').value.trim();
+  if(!clientName){alert('الرجاء إدخال اسم العميل');return;}
+  if(!pkgId){alert('الرجاء اختيار الباقة');return;}
+  const pkg=PKGS.find(p=>p.id===pkgId);
+  if(!pkg)return;
 
-  if (!clientName) { alert('الرجاء إدخال اسم العميل'); return; }
-  if (!pkgId) { alert('الرجاء اختيار الباقة'); return; }
+  const btn=document.getElementById('gb');
+  btn.textContent='⏳ جاري الإنشاء...';btn.disabled=true;
 
-  const pkg = PACKAGES.find(p => p.id === pkgId);
-  if (!pkg) return;
+  try{
+    const fmtDate=dateVal?new Date(dateVal).toLocaleDateString('ar-SA',{year:'numeric',month:'long',day:'numeric'}):dateVal;
+    const html=buildPdfHtml(pkg,clientName,fmtDate,notes);
+    const cont=document.getElementById('pdfRender');
+    cont.innerHTML=html;
+    cont.style.left='0';cont.style.top='0';cont.style.zIndex='9999';cont.style.opacity='0';
 
-  const btn = document.querySelector('.btn-generate');
-  btn.textContent = '⏳ جاري الإنشاء...';
-  btn.disabled = true;
+    await new Promise(r=>setTimeout(r,800));
 
-  try {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
-    const pageW = 210, pageH = 297;
-    const margin = 18;
-    const contentW = pageW - margin * 2;
+    const {jsPDF}=window.jspdf;
+    const pdf=new jsPDF({orientation:'p',unit:'mm',format:'a4'});
 
-    // Helper: right-aligned text for RTL
-    const rtlText = (text, x, y, opts = {}) => {
-      doc.text(text, x, y, { align: 'right', ...opts });
-    };
-
-    // Colors
-    const orange = [241, 90, 37];
-    const pink = [236, 33, 89];
-    const dark = [15, 10, 30];
-    const lightGray = [245, 245, 250];
-    const midGray = [140, 140, 160];
-
-    // ── PAGE 1: HEADER ──────────────────────────────────────────
-    // Background header block
-    doc.setFillColor(...dark);
-    doc.rect(0, 0, pageW, 60, 'F');
-
-    // Gradient effect (orange to pink band)
-    for (let i = 0; i < 60; i++) {
-      const r = Math.round(orange[0] + (pink[0]-orange[0]) * i/60);
-      const g = Math.round(orange[1] + (pink[1]-orange[1]) * i/60);
-      const b = Math.round(orange[2] + (pink[2]-orange[2]) * i/60);
-      doc.setFillColor(r, g, b);
-      doc.rect(pageW - 6, i, 6, 1, 'F');
-    }
-
-    // Company name
-    doc.setFont('Helvetica', 'bold');
-    doc.setFontSize(18);
-    doc.setTextColor(255, 255, 255);
-    rtlText('Al-Ahly Agency', pageW - margin, 22);
-
-    doc.setFont('Helvetica', 'normal');
-    doc.setFontSize(10);
-    doc.setTextColor(200, 200, 220);
-    rtlText('\u0627\u0644\u0623\u0647\u0644\u064a \u0644\u0644\u062a\u0633\u0648\u064a\u0642 \u0627\u0644\u0625\u0644\u0643\u062a\u0631\u0648\u0646\u064a', pageW - margin, 30);
-    rtlText('www.al-ahlyagency.com', pageW - margin, 38);
-
-    doc.setFontSize(9);
-    doc.setTextColor(180, 180, 200);
-    doc.text('920002058  |  Hello@al-ahlyagency.com', margin, 38);
-    doc.text('Al-Suwaidi, Riyadh  |  Sgl No: 7043033427', margin, 46);
-
-    // Offer title
-    doc.setFillColor(255, 255, 255);
-    doc.roundedRect(margin, 52, contentW, 18, 3, 3, 'F');
-    doc.setFont('Helvetica', 'bold');
-    doc.setFontSize(13);
-    doc.setTextColor(...dark);
-    doc.text('PRICE OFFER / \u0639\u0631\u0636 \u0633\u0639\u0631', pageW/2, 63, { align: 'center' });
-
-    // ── CLIENT INFO SECTION ─────────────────────────────────────
-    let y = 82;
-    doc.setFillColor(...lightGray);
-    doc.roundedRect(margin, y, contentW, 38, 4, 4, 'F');
-    doc.setDrawColor(...orange);
-    doc.setLineWidth(0.8);
-    doc.roundedRect(margin, y, contentW, 38, 4, 4, 'S');
-
-    // Orange left bar
-    doc.setFillColor(...orange);
-    doc.roundedRect(margin, y, 4, 38, 2, 2, 'F');
-
-    doc.setFont('Helvetica', 'bold');
-    doc.setFontSize(10);
-    doc.setTextColor(...dark);
-    rtlText('\u0628\u064a\u0627\u0646\u0627\u062a \u0627\u0644\u0639\u0645\u064a\u0644', pageW - margin - 8, y + 10);
-
-    doc.setFont('Helvetica', 'normal');
-    doc.setFontSize(9);
-    doc.setTextColor(60, 60, 80);
-    rtlText('\u0627\u0644\u0633\u0627\u062f\u0629: ' + clientName, pageW - margin - 8, y + 20);
-
-    const formattedDate = offerDate ? new Date(offerDate).toLocaleDateString('ar-SA', { year: 'numeric', month: 'long', day: 'numeric' }) : offerDate;
-    rtlText('\u062a\u0627\u0631\u064a\u062e \u0627\u0644\u0639\u0631\u0636: ' + formattedDate, pageW - margin - 8, y + 29);
-
-    doc.setTextColor(...orange);
-    doc.text('\u0635\u0627\u062f\u0631 \u0639\u0646: \u0645\u0624\u0633\u0633\u0629 \u0623\u0647\u0644 \u0627\u0644\u062a\u0645\u064a\u0632 \u0644\u0644\u062e\u062f\u0645\u0627\u062a \u0627\u0644\u062a\u0633\u0648\u064a\u0642\u064a\u0629 \u2013 \u0633\u062c\u0644 \u062a\u062c\u0627\u0631\u064a 7043033427', margin + 8, y + 20);
-    doc.setTextColor(60,60,80);
-    doc.text('\u0627\u0644\u0631\u064a\u0627\u0636 \u2013 \u062d\u064a \u0627\u0644\u0633\u0648\u064a\u062f\u064a \u2013 \u064a\u0645\u062b\u0644\u0647\u0627 \u0639\u0628\u062f\u0627\u0644\u0631\u062d\u0645\u0646 \u0639\u0627\u0645\u0631 \u062e\u0644\u0648\u0641\u0629 \u0627\u0644\u0634\u0647\u0631\u064a', margin + 8, y + 29);
-
-    // ── PACKAGE HEADER ──────────────────────────────────────────
-    y += 48;
-
-    // Gradient bar
-    for (let i = 0; i < contentW; i++) {
-      const r = Math.round(orange[0] + (pink[0]-orange[0]) * i/contentW);
-      const g = Math.round(orange[1] + (pink[1]-orange[1]) * i/contentW);
-      const b = Math.round(orange[2] + (pink[2]-orange[2]) * i/contentW);
-      doc.setFillColor(r, g, b);
-      doc.rect(pageW - margin - i - 1, y, 1, 16, 'F');
-    }
-    doc.roundedRect(margin, y, contentW, 16, 3, 3, 'S');
-
-    doc.setFont('Helvetica', 'bold');
-    doc.setFontSize(12);
-    doc.setTextColor(255, 255, 255);
-    doc.text(pkg.name + '  ' + pkg.icon, pageW/2, y + 10, { align: 'center' });
-
-    // Price box
-    y += 22;
-    doc.setFillColor(255, 245, 240);
-    doc.roundedRect(margin, y, contentW, 26, 4, 4, 'F');
-    doc.setDrawColor(...pink);
-    doc.setLineWidth(0.5);
-    doc.roundedRect(margin, y, contentW, 26, 4, 4, 'S');
-
-    doc.setFont('Helvetica', 'bold');
-    doc.setFontSize(20);
-    doc.setTextColor(...orange);
-    rtlText(pkg.price.toLocaleString() + ' \u0631\u064a\u0627\u0644', pageW - margin - 8, y + 16);
-
-    doc.setFont('Helvetica', 'normal');
-    doc.setFontSize(9);
-    doc.setTextColor(...midGray);
-    doc.text('\u0628\u062f\u0644\u0627\u064b \u0645\u0646 ' + pkg.oldPrice.toLocaleString() + ' \u0631\u064a\u0627\u0644', margin + 8, y + 10);
-
-    const saving = getSaving(pkg.price, pkg.oldPrice);
-    doc.setFillColor(34, 197, 94);
-    doc.roundedRect(margin + 8, y + 14, 40, 8, 3, 3, 'F');
-    doc.setFont('Helvetica', 'bold');
-    doc.setFontSize(8);
-    doc.setTextColor(255, 255, 255);
-    doc.text('\u062a\u0648\u0641\u064a\u0631 ' + saving + '%', margin + 28, y + 19, { align: 'center' });
-
-    doc.setFont('Helvetica', 'normal');
-    doc.setFontSize(9);
-    doc.setTextColor(80, 80, 100);
-    doc.text('\u0627\u0644\u0645\u062f\u0629: ' + pkg.duration, margin + 55, y + 10);
-
-    // ── SERVICES ────────────────────────────────────────────────
-    y += 34;
-    doc.setFont('Helvetica', 'bold');
-    doc.setFontSize(11);
-    doc.setTextColor(...dark);
-    rtlText('\u062e\u062f\u0645\u0627\u062a \u0627\u0644\u0628\u0627\u0642\u0629', pageW - margin, y);
-    // underline
-    doc.setDrawColor(...orange);
-    doc.setLineWidth(1);
-    doc.line(pageW - margin, y + 2, pageW - margin - 60, y + 2);
-
-    y += 10;
-
-    pkg.services.forEach((sId, idx) => {
-      const s = SERVICES[sId];
-      if (!s) return;
-
-      // Check page space
-      if (y > 260) {
-        doc.addPage();
-        y = margin;
-      }
-
-      // Service block header
-      doc.setFillColor(...dark);
-      doc.roundedRect(margin, y, contentW, 11, 2, 2, 'F');
-      // colored left accent
-      doc.setFillColor(...orange);
-      doc.rect(margin, y, 3, 11, 'F');
-
-      doc.setFont('Helvetica', 'bold');
-      doc.setFontSize(9.5);
-      doc.setTextColor(255, 255, 255);
-      rtlText(s.icon + ' ' + (s.nameAr || s.name), pageW - margin - 6, y + 7.5);
-      y += 13;
-
-      // Details
-      s.details.forEach(detail => {
-        if (y > 270) {
-          doc.addPage();
-          y = margin;
-        }
-        doc.setFillColor(250, 250, 255);
-        doc.rect(margin, y, contentW, 8, 'F');
-        doc.setDrawColor(220, 220, 235);
-        doc.setLineWidth(0.2);
-        doc.rect(margin, y, contentW, 8, 'S');
-
-        // Orange dot
-        doc.setFillColor(...orange);
-        doc.circle(pageW - margin - 4, y + 4, 1.2, 'F');
-
-        doc.setFont('Helvetica', 'normal');
-        doc.setFontSize(8.5);
-        doc.setTextColor(40, 40, 60);
-        const maxW = contentW - 12;
-        const lines = doc.splitTextToSize(detail, maxW);
-        rtlText(lines[0], pageW - margin - 9, y + 5.2);
-        y += 9;
+    const pages=cont.querySelectorAll('.pp');
+    for(let i=0;i<pages.length;i++){
+      const canvas=await html2canvas(pages[i],{
+        scale:2,useCORS:true,allowTaint:true,
+        backgroundColor:'#ffffff',width:794,logging:false
       });
-      y += 4;
-    });
-
-    // ── GOAL ──────────────────────────────────────────────────
-    if (y > 260) { doc.addPage(); y = margin; }
-
-    doc.setFillColor(255, 240, 245);
-    doc.roundedRect(margin, y, contentW, 20, 4, 4, 'F');
-    doc.setDrawColor(...pink);
-    doc.setLineWidth(0.5);
-    doc.roundedRect(margin, y, contentW, 20, 4, 4, 'S');
-
-    doc.setFont('Helvetica', 'bold');
-    doc.setFontSize(9);
-    doc.setTextColor(...pink);
-    rtlText('\u0627\u0644\u0647\u062f\u0641:', pageW - margin - 6, y + 8);
-
-    doc.setFont('Helvetica', 'normal');
-    doc.setFontSize(8.5);
-    doc.setTextColor(60, 30, 50);
-    const goalLines = doc.splitTextToSize(pkg.goal, contentW - 30);
-    rtlText(goalLines[0], pageW - margin - 22, y + 8);
-    if (goalLines[1]) rtlText(goalLines[1], pageW - margin - 6, y + 15);
-    y += 26;
-
-    // Notes
-    if (notes) {
-      if (y > 255) { doc.addPage(); y = margin; }
-      doc.setFillColor(240, 248, 255);
-      doc.roundedRect(margin, y, contentW, 18, 3, 3, 'F');
-      doc.setFont('Helvetica', 'bold');
-      doc.setFontSize(9);
-      doc.setTextColor(30, 80, 160);
-      rtlText('\u0645\u0644\u0627\u062d\u0638\u0627\u062a:', pageW - margin - 6, y + 8);
-      doc.setFont('Helvetica', 'normal');
-      doc.setFontSize(8.5);
-      doc.setTextColor(40, 40, 60);
-      rtlText(notes, pageW - margin - 28, y + 8);
-      y += 22;
+      if(i>0)pdf.addPage();
+      const img=canvas.toDataURL('image/jpeg',0.96);
+      pdf.addImage(img,'JPEG',0,0,210,297);
     }
 
-    // ── FOOTER ──────────────────────────────────────────────────
-    const totalPages = doc.getNumberOfPages();
-    for (let pg = 1; pg <= totalPages; pg++) {
-      doc.setPage(pg);
-      doc.setFillColor(...dark);
-      doc.rect(0, pageH - 18, pageW, 18, 'F');
-      // gradient
-      for (let i = 0; i < pageW; i++) {
-        const r = Math.round(orange[0] + (pink[0]-orange[0]) * i/pageW);
-        const g = Math.round(orange[1] + (pink[1]-orange[1]) * i/pageW);
-        const b = Math.round(orange[2] + (pink[2]-orange[2]) * i/pageW);
-        doc.setFillColor(r, g, b);
-        doc.rect(i, pageH - 18, 1, 2, 'F');
-      }
-      doc.setFont('Helvetica', 'normal');
-      doc.setFontSize(7.5);
-      doc.setTextColor(180, 180, 200);
-      doc.text('920002058  |  Hello@al-ahlyagency.com  |  www.al-ahlyagency.com  |  Al-Suwaidi, Riyadh', pageW/2, pageH - 10, { align: 'center' });
-      doc.setTextColor(100, 100, 120);
-      doc.text(pg + ' / ' + totalPages, pageW/2, pageH - 4, { align: 'center' });
-    }
-
-    // Save
-    const fileName = `عرض_سعر_${pkg.name}_${clientName.replace(/\s+/g,'_')}.pdf`;
-    doc.save(fileName);
-  } catch(e) {
-    console.error(e);
-    alert('حدث خطأ أثناء إنشاء الملف: ' + e.message);
-  } finally {
-    btn.textContent = '🚀 تصدير عرض السعر PDF';
-    btn.disabled = false;
+    pdf.save(`عرض_سعر_${pkg.n}_${clientName.replace(/\s+/g,'_')}.pdf`);
+    cont.innerHTML='';
+    cont.style.left='-9999px';cont.style.opacity='1';cont.style.zIndex='-1';
+    cls('pdfMod');
+  }catch(e){
+    console.error(e);alert('حدث خطأ أثناء إنشاء الملف:\n'+e.message);
+  }finally{
+    btn.textContent='🚀 تصدير عرض السعر PDF';btn.disabled=false;
   }
 }
 
-// Close modal on overlay click
-document.querySelectorAll('.modal-overlay').forEach(el => {
-  el.addEventListener('click', function(e) {
-    if (e.target === this) this.classList.remove('active');
-  });
-});
+function buildPdfHtml(pkg,clientName,fmtDate,notes){
+  const save=Math.round((1-pkg.p/pkg.o)*100);
+  const logo='/mnt/user-data/uploads/1772287918824_image.png';
 
-// Init
-renderPackages();
-populateSelect();
+  const hdr=`<div class="ph">
+    <div class="ph-logo">
+      <img src="${logo}" onerror="this.style.display='none'" />
+      <div class="ph-ln">
+        <h2>الأهلي للتسويق الإلكتروني</h2>
+        <p>Al-Ahly Digital Marketing Agency</p>
+        <p>www.al-ahlyagency.com</p>
+      </div>
+    </div>
+    <div class="ph-rt">
+      <div class="pot">عرض سعر</div>
+      <p>المُقدَّم إلى: ${clientName}</p>
+    </div>
+  </div>
+  <div class="pstripe"></div>`;
+
+  const foot=`<div class="pfoot">
+    <p>📞 920002058 &nbsp;|&nbsp; Hello@al-ahlyagency.com &nbsp;|&nbsp; السويدي — الرياض</p>
+    <span>www.al-ahlyagency.com</span>
+  </div>`;
+
+  const clientBox=`<div class="pcl">
+    <div class="pcl-l">
+      <div class="plbl">مُقدَّم إلى</div>
+      <div class="pval">السادة / ${clientName}</div>
+      <div class="psub">
+        صادر عن: مؤسسة أهل التميز للخدمات التسويقية<br>
+        سجل تجاري رقم: 7043033427 — الرياض، حي السويدي<br>
+        يمثلها: عبدالرحمن عامر خلوفة الشهري
+      </div>
+    </div>
+    <div class="pcl-r">
+      <div class="plbl">تاريخ العرض</div>
+      <div class="pval">${fmtDate}</div>
+    </div>
+  </div>`;
+
+  const pkgHdr=`<div class="pkh">
+    <h3>${pkg.ic} ${pkg.n}</h3>
+    <div class="pkh-rt">
+      <div class="pkh-p">${pkg.p.toLocaleString('ar-EG')} ريال</div>
+      <div class="pkh-po">بدلاً من ${pkg.o.toLocaleString('ar-EG')} ريال — توفير ${save}%</div>
+      <div class="pkh-dur">📅 المدة: ${pkg.d}</div>
+    </div>
+  </div>`;
+
+  const goalBox=`<div class="pgl"><b>🎯 هدف الباقة:</b> ${pkg.g}</div>`;
+
+  function sBlock(id){
+    const s=SVCS[id];if(!s)return'';
+    return`<div class="psvc">
+      <div class="psvch">
+        <span class="psvch-ic">${s.ic}</span>
+        <h4>${s.n}</h4>
+        <span>${s.en}</span>
+      </div>
+      <div class="psvci">${s.items.map(it=>`
+        <div class="psvr"><div class="psvb">✓</div><span>${it}</span></div>`).join('')}
+      </div>
+    </div>`;
+  }
+
+  const allSvcs=pkg.s;
+  // Split: first 3 on page1, rest on page2
+  const s1=allSvcs.slice(0,3);
+  const s2=allSvcs.slice(3);
+
+  const issuer=`<div class="piss">
+    هذا العرض صادر عن <b>مؤسسة أهل التميز للخدمات التسويقية</b> — سجل تجاري رقم <b>7043033427</b><br>
+    الرياض — حي السويدي — Super Office As Suwaidi<br>
+    📞 920002058 &nbsp;|&nbsp; ✉️ Hello@al-ahlyagency.com &nbsp;|&nbsp; يمثلها: <b>عبدالرحمن عامر خلوفة الشهري</b>
+  </div>`;
+
+  const notesHtml=notes?`<div class="pnotes"><b>📝 ملاحظات:</b> ${notes}</div>`:'';
+
+  const page1=`<div class="pp">
+    ${hdr}
+    <div class="pb">
+      ${clientBox}
+      ${pkgHdr}
+      ${goalBox}
+      <div class="pst"><span>📋</span> الخدمات المشمولة في الباقة</div>
+      ${s1.map(sBlock).join('')}
+      ${s2.length===0?notesHtml:''}
+      ${s2.length===0?issuer:''}
+    </div>
+    ${foot}
+  </div>`;
+
+  let page2='';
+  if(s2.length>0){
+    page2=`<div class="pp">
+      ${hdr}
+      <div class="pb">
+        <div class="pst"><span>📋</span> تابع — الخدمات المشمولة في الباقة</div>
+        ${s2.map(sBlock).join('')}
+        ${notesHtml}
+        ${issuer}
+      </div>
+      ${foot}
+    </div>`;
+  }
+
+  return page1+page2;
+}
+
+renderGrid();
+populateSel();
 </script>
 </body>
 </html>
